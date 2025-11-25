@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <!-- Custom CSS -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Walter+Turncoat&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            text-decoration: none;
+        }
+
+        body {
+            font-family: "Comic Neue", cursive;
+            font-weight: 400;
+            background: #131D2B;
+            background: linear-gradient(156deg, rgba(19, 29, 43, 1) 0%, rgba(7, 20, 33, 1) 35%, rgba(27, 47, 77, 1) 100%);
+        }
+
+        section {
+            width: 100%;
+            height: 100vh;
+        }
+
+        .ls-1 {
+            letter-spacing: 1px;
+        }
+
+        .ls-2 {
+            letter-spacing: 2px;
+        }
+
+        .ls-3 {
+            letter-spacing: 3px;
+        }
+
+        .board {
+            width: 326px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .tile {
+            width: 100px;
+            height: 100px;
+            border: none;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            font-family: "Walter Turncoat", cursive;
+            background-color: #374151;
+            border: 5px solid #131d2b;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            margin: 4px;
+            border-radius: 15px;
+        }
+
+        .tile:focus {
+            background-color: rgb(41, 52, 67)
+        }
+
+        .reset-btn,
+        .restart-btn {
+            padding: 8px 20px;
+            cursor: pointer;
+            font-family: "Comic Neue", cursive;
+            font-weight: 400;
+            border: none;
+            border-radius: 50px;
+        }
+
+        .reset-btn {
+            background-color: white;
+        }
+
+        .reset-btn:hover {
+            background-color: rgb(236, 236, 236);
+        }
+
+        .restart-btn {
+            background-color: rgb(30, 94, 255);
+            color: white;
+        }
+
+        .restart-btn:hover {
+            background-color: rgb(19, 118, 216);
+        }
+
+        #xWins {
+            color: #23b9d1;
+        }
+
+        #oWins {
+            color: #e4d26e;
+        }
+
+        #dWins {
+            color: #72e46e;
+        }
+
+        .score h3 {
+            line-height: 1.6;
+        }
+
+        .top-content h3 {
+            font-size: 18px !important;
+        }
+
+        @media (max-width: 768px) {
+            .game-btns {
+                flex-direction: column;
+            }
+
+            .tile {
+                width: 75px;
+                height: 75px;
+            }
+        }
+
+        .tile:hover {
+            background-color: #475569;
+            transform: scale(1.05);
+            transition: 0.15s ease;
+        }
+
+        /* Small screens */
+        @media (max-width: 576px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            #turnText {
+                font-size: 1.2rem;
+            }
+
+            .tile {
+                font-size: 32px;
+            }
+
+            .game-btns {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .top-content h3 {
+                font-size: 14px !important;
+                padding: 0px !important;
+                margin-bottom: 22px !important;
+            }
+
+            .top-content h3 span {
+                font-size: 12px !important;
+            }
+        }
+
+        /* Extra small screens / tiny phones */
+        @media (max-width: 380px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .tile {
+                font-size: 26px;
+            }
+
+            .gap-4 {
+                gap: 0.5rem !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <section class="px-2">
+        <!-- Heading -->
+        <h1 class="text-center text-uppercase text-white my-4 mt-5">
+            <strong>Tic-Tac-Toe</strong>
+        </h1>
+
+        <!-- Scoreboard -->
+        <div class="top-content text-center text-white">
+            <h3 class="d-inline-block px-5 py-2 fs-5 fw-bold ls-3">
+                <span class="btn btn-outline-light mt-3">X Sores: <span class="fw-normal" id="xWins">0</span></span>
+                <span class="btn btn-outline-light mt-3">O Scores: <span class="fw-normal" id="oWins">0</span></span>
+                <span class="btn btn-outline-light mt-3">Draws: <span class="fw-normal" id="dWins">0</span></span>
+            </h3>
+        </div>
+
+        <!-- Game Area -->
+        <div class="botom-content">
+            <h2 class="text-center text-white text-uppercase" id="turnText">X Turn</h2>
+
+            <div class="container d-flex justify-content-center align-items-center">
+                <div class="board">
+                    <button class="tile" id="t1"></button>
+                    <button class="tile" id="t2"></button>
+                    <button class="tile" id="t3"></button>
+                    <button class="tile" id="t4"></button>
+                    <button class="tile" id="t5"></button>
+                    <button class="tile" id="t6"></button>
+                    <button class="tile" id="t7"></button>
+                    <button class="tile" id="t8"></button>
+                    <button class="tile" id="t9"></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="game-btns my-4 d-flex justify-content-center align-items-center gap-4">
+            <button onclick="reset()" class="restart-btn fw-bold ls-2">
+                <i class="bi bi-arrow-repeat"></i> Restart Game
+            </button>
+            <button onclick="resetScore()" class="reset-btn fw-bold ls-2">
+                Reset Score
+            </button>
+        </div>
+    </section>
+
+    <!-- JS Libraries -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Game Script -->
+    <script>
+        let count = 0;
+        let xCount = 0;
+        let oCount = 0;
+        let dCount = 0;
+        let gameOver = false;
+
+        function reset() {
+            count = 0;
+            gameOver = false;
+            document.getElementById("turnText").innerHTML = "X Turn";
+
+            for (let i = 1; i <= 9; i++) {
+                document.getElementById(`t${i}`).innerHTML = "";
+                document.getElementById(`t${i}`).disabled = false;
+                document.getElementById(`t${i}`).style.color = "";
+            }
+        }
+
+        /* SweetAlert Applied Here */
+        function resetScore() {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "This will reset all scores!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, Reset!",
+                cancelButtonText: "Cancel"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    xCount = 0;
+                    oCount = 0;
+                    dCount = 0;
+                    document.getElementById("xWins").innerHTML = xCount;
+                    document.getElementById("oWins").innerHTML = oCount;
+                    document.getElementById("dWins").innerHTML = dCount;
+                    reset();
+
+                    Swal.fire({
+                        title: "Reset Successfully!",
+                        text: "All scores cleared.",
+                        icon: "success"
+                    });
+                }
+            });
+        }
+
+        function disableAll() {
+            for (let i = 1; i <= 9; i++) {
+                document.getElementById(`t${i}`).disabled = true;
+            }
+        }
+
+        function fire(k) {
+            if (k === "X") {
+                xCount++;
+                document.getElementById("xWins").innerHTML = xCount;
+            } else {
+                oCount++;
+                document.getElementById("oWins").innerHTML = oCount;
+            }
+
+            document.getElementById("turnText").innerHTML = `${k} Wins!`;
+
+            Swal.fire({
+                title: `Player ${k} has won!`,
+                icon: "success"
+            }).then(() => {
+                reset();
+            });
+        }
+
+        /* YOUR OLD WORKING CHECK-WIN FUNCTION */
+        function checkWin(player) {
+            let winFlag = true;
+
+            // 1st row
+            for (let i = 1; i <= 3; i++) {
+                if (document.getElementById(`t${i}`).innerHTML != player) {
+                    winFlag = false;
+                    break;
+                }
+            }
+            if (winFlag) { fire(player); return true; }
+
+            // 2nd row
+            winFlag = true;
+            for (let i = 4; i <= 6; i++) {
+                if (document.getElementById(`t${i}`).innerHTML != player) {
+                    winFlag = false;
+                    break;
+                }
+            }
+            if (winFlag) { fire(player); return true; }
+
+            // 3rd row
+            winFlag = true;
+            for (let i = 7; i <= 9; i++) {
+                if (document.getElementById(`t${i}`).innerHTML != player) {
+                    winFlag = false;
+                    break;
+                }
+            }
+            if (winFlag) { fire(player); return true; }
+
+            // 1st column
+            winFlag = true;
+            for (let i = 1; i <= 7; i += 3) {
+                if (document.getElementById(`t${i}`).innerHTML != player) {
+                    winFlag = false;
+                    break;
+                }
+            }
+            if (winFlag) { fire(player); return true; }
+
+            // 2nd column
+            winFlag = true;
+            for (let i = 2; i <= 8; i += 3) {
+                if (document.getElementById(`t${i}`).innerHTML != player) {
+                    winFlag = false;
+                    break;
+                }
+            }
+            if (winFlag) { fire(player); return true; }
+
+            // 3rd column
+            winFlag = true;
+            for (let i = 3; i <= 9; i += 3) {
+                if (document.getElementById(`t${i}`).innerHTML != player) {
+                    winFlag = false;
+                    break;
+                }
+            }
+            if (winFlag) { fire(player); return true; }
+
+            // Diagonal 1
+            winFlag = true;
+            for (let i = 1; i <= 9; i += 4) {
+                if (document.getElementById(`t${i}`).innerHTML != player) {
+                    winFlag = false;
+                    break;
+                }
+            }
+            if (winFlag) { fire(player); return true; }
+
+            // Diagonal 2
+            winFlag = true;
+            for (let i = 3; i <= 7; i += 2) {
+                if (document.getElementById(`t${i}`).innerHTML != player) {
+                    winFlag = false;
+                    break;
+                }
+            }
+            if (winFlag) { fire(player); return true; }
+
+            return false;
+        }
+
+        $(document).ready(function () {
+            $(".tile").on("click", function () {
+                if (gameOver) return;
+
+                if (this.innerHTML === "") {
+                    this.innerHTML = (count % 2 === 0) ? "X" : "O";
+                    this.style.color = (this.innerHTML === "X") ? "#23b9d1" : "#e4d26e";
+                    count++;
+
+                    document.getElementById("turnText").innerHTML = (count % 2 === 0) ? "X Turn" : "O Turn";
+                } else {
+                    Swal.fire({
+                        title: "Can't override move...",
+                        icon: "warning"
+                    });
+                    return;
+                }
+
+                if (count >= 5) {
+                    let win = checkWin(this.innerHTML);
+
+                    if (win) {
+                        gameOver = true;
+                        disableAll();
+                        return;
+                    }
+
+                    if (count === 9 && win === false) {
+                        dCount++;
+                        document.getElementById("dWins").innerHTML = dCount;
+                        document.getElementById("turnText").innerHTML = "Game Draw!";
+
+                        Swal.fire({
+                            title: "Game Draw!",
+                            icon: "warning"
+                        }).then(() => {
+                            reset();
+                        });
+                    }
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
