@@ -1,0 +1,86 @@
+<!doctype html><html><head></head><body><!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Anagram Checker</title>
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+	<!-- SweetAlert -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+	<!-- Google Font -->
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+
+	<style>
+		body {
+			font-family: 'Poppins', sans-serif;
+			background: #f0f2f5;
+		}
+
+		.container-box {
+			max-width: 500px;
+			margin: 120px auto;
+			padding: 30px;
+			border-radius: 12px;
+			background: #fff;
+			box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+		}
+
+		button {
+			font-weight: bold;
+		}
+	</style>
+</head>
+
+<body>
+
+	<div class="container container-box">
+		<h3 class="text-center mb-4">🔠 Anagram Checker</h3>
+
+		<div class="mb-3">
+			<label class="form-label">Enter First Text</label>
+			<input type="text" class="form-control" id="str1" placeholder="e.g. listen">
+        </div>
+
+			<div class="mb-3">
+				<label class="form-label">Enter Second Text</label>
+				<input type="text" class="form-control" id="str2" placeholder="e.g. silent">
+        </div>
+
+				<button class="btn btn-primary w-100 mt-3" id="checkBtn">Check Now</button>
+			</div>
+
+			<!-- jQuery -->
+			<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+			<script>
+				$(document).ready(function () {
+            $("#checkBtn").click(function () {
+                let a = $("#str1").val().trim();
+                let b = $("#str2").val().trim();
+
+                // Input validation
+                if (a === "" || b === "") {
+                    Swal.fire("Oops!", "Please enter both strings.", "warning");
+                    return;
+                }
+
+                // Function to process string (remove spaces, lower case, sort)
+                const formatString = str => str.toLowerCase().replace(/\s/g, "").split("").sort().join("");
+
+                if (formatString(a) === formatString(b)) {
+                    Swal.fire("✔️ Yes!", `"${a}" and "${b}" are Anagrams!`, "success");
+                } else {
+                    Swal.fire("❌ No!", `"${a}" and "${b}" are NOT Anagrams!`, "error");
+                }
+            });
+        });
+			</script>
+
+</body>
+
+</html></body><html>

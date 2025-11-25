@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+
+    <style>
+        .board {
+            width: 300px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .tile {
+            width: 100px;
+            height: 100px;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class="text-center my-5">
+        <strong>Tic Tac Toe - JS</strong>
+    </h1>
+    <div class="container d-flex justify-content-center align-items-center">
+
+        <div class="board">
+            <button class="tile" id="t1"></button>
+            <button class="tile" id="t2"></button>
+            <button class="tile" id="t3"></button>
+            <button class="tile" id="t4"></button>
+            <button class="tile" id="t5"></button>
+            <button class="tile" id="t6"></button>
+            <button class="tile" id="t7"></button>
+            <button class="tile" id="t8"></button>
+            <button class="tile" id="t9"></button>
+
+        </div>
+
+        <div class="sidebar"></div>
+    </div><!-- JS Libraries -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- CUSTOMISE SCRIPT -->
+
+    <script>
+        let count = 0;
+        let xCount = 0;
+        let yCount = 0;
+
+        function reset() {
+            count = 0;
+            for (let i = 1; i <= 9; i++) {
+                document.getElementById(`t${i}`).innerHTML = "";
+            }
+        };
+
+        function fire(k) {
+            Swal.fire({
+                title: `Player ${k} has won!`,
+                icon: "success"
+            });
+        }
+
+        function checkWin(player) {
+
+            let winFlag = true;
+
+            // 1st row
+            for (let i = 1; i <= 3; i++) {
+                let symb = document.getElementById(`t${i}`).innerHTML;
+
+                if (symb != player) {
+                    winFlag = false;
+                    break;
+                }
+            }
+
+            if (winFlag) {
+                fire(player);
+                return winFlag;
+            }
+
+            // 2nd row
+            winFlag = true;
+
+            for (let i = 4; i <= 6; i++) {
+                let symb = document.getElementById(`t${i}`).innerHTML;
+
+                if (symb != player) {
+                    winFlag = false;
+                    break;
+                }
+            }
+
+            if (winFlag) {
+                fire(player);
+                return winFlag;
+            }
+
+            // 3rd row
+            winFlag = true;
+
+            for (let i = 7; i <= 9; i++) {
+                let symb = document.getElementById(`t${i}`).innerHTML;
+
+                if (symb != player) {
+                    winFlag = false;
+                    break;
+                }
+            }
+
+            if (winFlag) {
+                fire(player);
+                return winFlag;
+            }
+
+            // 1st column
+            winFlag = true;
+
+            for (let i = 1; i <= 7; i += 3) {
+                let symb = document.getElementById(`t${i}`).innerHTML;
+
+                if (symb != player) {
+                    winFlag = false;
+                    break;
+                }
+            }
+
+            if (winFlag) {
+                fire(player);
+                return winFlag;
+            }
+
+            // 2nd column
+            winFlag = true;
+
+            for (let i = 2; i <= 8; i += 3) {
+                let symb = document.getElementById(`t${i}`).innerHTML;
+
+                if (symb != player) {
+                    winFlag = false;
+                    break;
+                }
+            }
+
+            if (winFlag) {
+                fire(player);
+                return winFlag;
+            }
+
+            // 3rd column
+            winFlag = true;
+
+            for (let i = 3; i <= 9; i += 3) {
+                let symb = document.getElementById(`t${i}`).innerHTML;
+
+                if (symb != player) {
+                    winFlag = false;
+                    break;
+                }
+            }
+
+            if (winFlag) {
+                fire(player);
+                return winFlag;
+            }
+
+            // X rotation 1
+            winFlag = true;
+
+            for (let i = 1; i <= 9; i += 4) {
+                let symb = document.getElementById(`t${i}`).innerHTML;
+
+                if (symb != player) {
+                    winFlag = false;
+                    break;
+                }
+            }
+
+            if (winFlag) {
+                fire(player);
+                return winFlag;
+            }
+
+            // X rotation 2
+            winFlag = true;
+
+            for (let i = 3; i <= 7; i += 2) {
+                let symb = document.getElementById(`t${i}`).innerHTML;
+
+                if (symb != player) {
+                    winFlag = false;
+                    break;
+                }
+            }
+
+            if (winFlag) {
+                fire(player);
+                return winFlag;
+            }
+
+            return false;
+        }
+
+        $(document).ready(function () {
+            $(".tile").on("click", function () {
+                let tile = this;
+
+                if (tile.innerHTML === "") {
+                    if (count % 2 == 0) {
+                        tile.innerHTML = "X";
+                    } else {
+                        tile.innerHTML = "O";
+                    }
+                    count++;
+                } else {
+                    alert("Can't override move...");
+                    return;
+                }
+
+                if (count >= 5) {
+                    let win = checkWin(tile.innerHTML);
+
+                    if (win) {
+                        reset();
+                    }
+
+                    if (count == 9 && win == false) {
+                        Swal.fire({
+                            title: `Game Tie!`,
+                            icon: "warning"
+                        });
+                        reset();
+                    }
+                }
+            })
+        })
+    </script>
+</body>
+
+</html>

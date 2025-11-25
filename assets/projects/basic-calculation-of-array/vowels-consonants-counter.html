@@ -1,0 +1,91 @@
+<!doctype html><html><head></head><body><!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Vowels & Consonants Counter</title>
+
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- SweetAlert -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+	<style>
+		body {
+			background-color: #f3f7ff;
+		}
+
+		.box {
+			max-width: 550px;
+			margin: 100px auto;
+			padding: 30px;
+			background: #fff;
+			border-radius: 12px;
+			box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+		}
+	</style>
+</head>
+
+<body>
+
+	<div class="container">
+		<div class="box">
+			<h2 class="text-center mb-4">Vowels & Consonants Counter</h2>
+
+			<div class="mb-3">
+				<label class="form-label">Enter a String:</label>
+				<input type="text" id="textInput" class="form-control" placeholder="Type here...">
+            </div>
+
+				<div class="text-center">
+					<button id="btnCheck" class="btn btn-primary">Count Now</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- JQuery -->
+		<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+		<!-- JavaScript Logic -->
+		<script>
+			$(document).ready(function () {
+
+            $("#btnCheck").click(function () {
+                let text = $("#textInput").val().trim();
+
+                if (text === "") {
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Oops!",
+                        text: "Please enter a string first!"
+                    });
+                    return;
+                }
+
+                let vowels = "aeiouAEIOU";
+                let vowelCount = 0, consonantCount = 0;
+
+                for (let ch of text) {
+                    if (/[a-zA-Z]/.test(ch)) {   // Only check letters
+                        if (vowels.includes(ch)) {
+                            vowelCount++;
+                        } else {
+                            consonantCount++;
+                        }
+                    }
+                }
+
+                Swal.fire({
+                    title: "Result",
+                    html: `<b>Vowels:</b> ${vowelCount} <br> <b>Consonants:</b> ${consonantCount}`,
+                    icon: "success"
+                });
+            });
+        });
+		</script>
+
+</body>
+
+</html></body><html>

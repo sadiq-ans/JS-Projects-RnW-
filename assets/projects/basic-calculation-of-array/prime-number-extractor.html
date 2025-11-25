@@ -1,0 +1,81 @@
+<!doctype html><html><head></head><body><!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Prime Number Extractor</title>
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+
+	<!-- SweetAlert -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+	<!-- jQuery -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+	<style>
+		body {
+			background: #e3f2fd;
+			font-family: Arial, Helvetica, sans-serif;
+		}
+
+		.card {
+			margin-top: 50px;
+			border-radius: 15px;
+			box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+		}
+
+		.btn-custom {
+			background-color: #0d6efd;
+			color: #fff;
+		}
+	</style>
+</head>
+
+<body>
+
+	<div class="container">
+		<div class="card p-4">
+			<h2 class="text-center mb-3 text-primary">Prime Number Extractor</h2>
+
+			<label for="arrInput" class="form-label"><b>Enter Numbers (comma separated):</b></label>
+			<input type="text" id="arrInput" class="form-control" placeholder="Example: 2, 3, 4, 5, 6, 7, 13">
+
+			<button class="btn btn-custom mt-3 w-100" id="checkPrime">Find Prime Numbers</button>
+		</div>
+	</div>
+
+
+	<script>
+		function isPrime(num) {
+        if (num < 2) return false;
+        for (let i = 2; i <= Math.sqrt(num); i++) {
+            if (num % i === 0) return false;
+        }
+        return true;
+    }
+
+    $("#checkPrime").click(function () {
+        let input = $("#arrInput").val().trim();
+
+        if (input === "") {
+            Swal.fire("Error!", "Please enter some numbers!", "error");
+            return;
+        }
+
+        let arr = input.split(",").map(Number);
+        let primes = arr.filter(isPrime);
+
+        Swal.fire({
+            title: "Prime Numbers Found",
+            text: primes.length > 0 ? primes.join(", ") : "No prime numbers found!",
+            icon: primes.length > 0 ? "success" : "info"
+        });
+    });
+	</script>
+
+</body>
+
+</html></body><html>
